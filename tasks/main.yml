@@ -1,65 +1,61 @@
 ---
-- name: check for installation of Miniconda
+- name: install package dependencies for miniconda installation
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ miniconda_package_dependencies }}"
+  when: ansible_os_family == 'Debian'
+
+- name: check for installation of miniconda
   become: yes
   stat:
-    path: "{{ miniconda_dir }}/bin/conda"
-  changed_when: false
+    path: "{{ miniconda_conda_bin }}"
   register: miniconda_conda_binary
+  changed_when: false
 
-- when: not miniconda_conda_binary.stat.exists
-  block:
-    - name: download installer...
-      get_url:
-        url: "{{ miniconda_installer_url }}"
-        checksum: "{{ miniconda_checksum }}"
-        dest: "/tmp/{{ miniconda_installer_sh }}"
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
-        mode: 0755
-        timeout: "{{ miniconda_timeout_seconds }}"
+- name: download miniconda installer
+  get_url:
+    url: "{{ miniconda_installer_url }}"
+    checksum: "{{ miniconda_checksum }}"
+    dest: "/tmp/{{ miniconda_installer_sh }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+    timeout: "{{ miniconda_timeout_seconds }}"
+  when: not miniconda_conda_binary.stat.exists
 
-    - name: install...
-      become: yes
-      command: |
-        /tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_dir }}
-      args:
-        creates: "{{ miniconda_dir }}"
+- name: install miniconda
+  become: yes
+  command: "/tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_dir }}"
+  args:
+    creates: "{{ miniconda_dir }}"
+  when: not miniconda_conda_binary.stat.exists
 
-  always:
-    - name: delete installer...
-      file:
-        path: "/tmp/{{ miniconda_installer_sh }}"
-        state: absent
+- name: delete miniconda installer
+  file:
+    path: "/tmp/{{ miniconda_installer_sh }}"
+    state: absent
 
-- name: link /etc/profile.d/conda.sh...
+- name: link /etc/profile.d/conda.sh
   become: yes
   file:
-    src: "{{ miniconda_dir }}/etc/profile.d/conda.sh"
-    dest: "/etc/profile.d/conda.sh"
+    src: "{{ miniconda_etc_profile_conda }}.sh"
+    dest: "{{ miniconda_etc_profile }}/conda.sh"
     state: link
 
-- name: link /etc/profile.d/conda.csh...
+- name: link /etc/profile.d/conda.csh
   become: yes
   file:
-    src: "{{ miniconda_dir }}/etc/profile.d/conda.csh"
-    dest: "/etc/profile.d/conda.csh"
+    src: "{{ miniconda_etc_profile_conda }}.csh"
+    dest: "{{ miniconda_etc_profile }}/conda.csh"
     state: link
 
-- name: update conda pkgs...
-  when: miniconda_pkg_update
+- name: update base miniconda packages
   become: yes
   shell: bash -lc "conda update -y --all"
   register: conda_update_pkgs
+  when: miniconda_pkg_update
   changed_when: "conda_update_pkgs.stdout is not search('All requested packages already installed')"
   failed_when: "conda_update_pkgs.stderr is search('conda: command not found')"
-
-- name: install additional packages...
-  become: yes
-  conda:
-    name: "{{ item }}"
-    state: present
-    executable: "{{ miniconda_conda_bin }}"
-  register: conda_install_result
-  changed_when: conda_install_result.stdout is not search("All requested packages already installed")
-  with_items: "{{ miniconda_install_packages }}"
 ...

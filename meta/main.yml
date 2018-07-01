@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: James Glasbrenner
-  description: installs Miniconda
+  description: installs miniconda
   license:
     - MIT
   min_ansible_version: 2.5
