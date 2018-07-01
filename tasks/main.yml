@@ -1,13 +1,4 @@
 ---
-- name: resolve platform specific vars
-  include_vars: "{{ item }}"
-  with_first_found:
-    - files:
-        - "{{ ansible_os_family }}.yml"
-        - "default.yml"
-      paths:
-        - "{{ role_path }}/vars"
-
 - name: check for installation of Miniconda
   become: yes
   stat:
@@ -18,24 +9,24 @@
 - when: not miniconda_conda_binary.stat.exists
   block:
     - name: download installer...
-      become: yes
-      become_user: root
       get_url:
         url: "{{ miniconda_installer_url }}"
-        dest: "/tmp/{{ miniconda_installer_sh }}"
-        timeout: "{{ miniconda_timeout_seconds }}"
         checksum: "{{ miniconda_checksum }}"
+        dest: "/tmp/{{ miniconda_installer_sh }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         mode: 0755
+        timeout: "{{ miniconda_timeout_seconds }}"
 
     - name: install...
       become: yes
-      command: "/tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_dir }}"
+      command: |
+        /tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_dir }}
       args:
         creates: "{{ miniconda_dir }}"
 
   always:
     - name: delete installer...
-      become: yes
       file:
         path: "/tmp/{{ miniconda_installer_sh }}"
         state: absent
@@ -55,17 +46,20 @@
     state: link
 
 - name: update conda pkgs...
-  become: yes
   when: miniconda_pkg_update
-  command: "{{ miniconda_dir }}/bin/conda update -n base -y --all"
+  become: yes
+  shell: bash -lc "conda update -y --all"
+  register: conda_update_pkgs
+  changed_when: "conda_update_pkgs.stdout is not search('All requested packages already installed')"
+  failed_when: "conda_update_pkgs.stderr is search('conda: command not found')"
 
-- name: install additional packages
+- name: install additional packages...
   become: yes
   conda:
     name: "{{ item }}"
     state: present
     executable: "{{ miniconda_conda_bin }}"
   register: conda_install_result
-  changed_when: not (conda_install_result.stdout | search("All requested packages already installed"))
+  changed_when: conda_install_result.stdout is not search("All requested packages already installed")
   with_items: "{{ miniconda_install_packages }}"
 ...

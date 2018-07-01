@@ -21,3 +21,14 @@ miniconda_parent_dir: /opt
 
 miniconda_pkg_update: true
 miniconda_install_packages: []
+
+# variable-dependent variables
+miniconda_name: "Miniconda{{ miniconda_python_ver }}-{{ miniconda_ver }}-Linux-x86_64"
+miniconda_installer_sh: "{{ miniconda_name }}.sh"
+miniconda_installer_url: "{{ miniconda_mirror }}/{{ miniconda_installer_sh }}"
+miniconda_checksum: "{{ miniconda_checksums[miniconda_installer_sh] }}"
+
+miniconda_dir: "{{ miniconda_parent_dir }}/miniconda"
+
+miniconda_conda_bin: "{{ miniconda_dir }}/bin/conda"
+...
