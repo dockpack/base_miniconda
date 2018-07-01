@@ -1,41 +1,48 @@
-andrewrothstein.anaconda
-=========
-[![Build Status](https://travis-ci.org/andrewrothstein/ansible-anaconda.svg?branch=master)](https://travis-ci.org/andrewrothstein/ansible-anaconda)
+# Ansible Role: Miniconda
 
-[![Join the chat at https://gitter.im/andrewrothstein/ansible-anaconda](https://badges.gitter.im/andrewrothstein/ansible-anaconda.svg)](https://gitter.im/andrewrothstein/ansible-anaconda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Installs [Miniconda](https://conda.io/miniconda.html) on Ubuntu installations.
 
-A role that installs [Anaconda](https://www.continuum.io/anaconda-overview)
+## Requirements
 
-Requirements
-------------
+None.
 
-See [meta/main.yml](meta/main.yml)
+## Role Variables
 
-Role Variables
---------------
+Variables and default values:
 
-See [defaults/main.yml](defaults/main.yml)
+```yaml
+# main Anaconda download server
+miniconda_mirror: "https://repo.continuum.io/miniconda"
 
-Dependencies
-------------
+# version of python (2|3)
+miniconda_python_ver: 3
 
-See [meta/main.yml](meta/main.yml)
+# miniconda version
+miniconda_ver: "4.5.4"
 
-Example Playbook
-----------------
+# miniconda checksums...
+# https://repo.continuum.io/archive/
+miniconda_checksums:
+  Miniconda2-4.5.4-Linux-x86_64.sh: "md5:8a1c02f6941d8778f8afad7328265cf5"
+  Miniconda3-4.5.4-Linux-x86_64.sh: "md5:a946ea1d0c4a642ddf0c3a26a18bb16d"
 
-```yml
-- hosts: servers
-  roles:
-    - andrewrothstein.anaconda
+# when downloading the miniconda binary it might take a while
+miniconda_timeout_seconds: 600
+
+miniconda_parent_dir: /opt
+
+miniconda_pkg_update: true
+miniconda_install_packages: []
 ```
 
-License
--------
+## Example Playbook
+
+```yaml
+- hosts: all
+  roles:
+    - jkglasbrenner.miniconda
+```
+
+## License
 
 MIT
-
-Author Information
-------------------
-
-Andrew Rothstein <andrew.rothstein@gmail.com>

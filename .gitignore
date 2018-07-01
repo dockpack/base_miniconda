@@ -1,4 +1,2 @@
-**~
-Dockerfile.*
-requirements.yml
-xssh
+*.retry
+tests/test.sh

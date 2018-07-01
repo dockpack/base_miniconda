@@ -1,11 +1,11 @@
 ---
-anaconda_platform: '{{anaconda_os_installer_discriminator}}-{{ansible_machine}}'
-anaconda_name : 'Anaconda{{anaconda_python_ver}}-{{anaconda_ver}}-{{anaconda_platform}}'
-anaconda_installer_sh : '{{anaconda_name}}.sh'
-anaconda_installer_url : '{{anaconda_mirror}}/{{anaconda_installer_sh}}'
-anaconda_checksum : '{{anaconda_checksums[anaconda_installer_sh]}}'
+miniconda_platform: "{{ miniconda_os_installer_discriminator }}-{{ ansible_machine }}"
+miniconda_name : "Miniconda{{ miniconda_python_ver }}-{{ miniconda_ver }}-{{ miniconda_platform }}"
+miniconda_installer_sh : "{{ miniconda_name }}.sh"
+miniconda_installer_url : "{{ miniconda_mirror }}/{{ miniconda_installer_sh }}"
+miniconda_checksum : "{{ miniconda_checksums.miniconda_installer_sh }}"
 
-anaconda_install_dir: '{{anaconda_parent_dir}}/{{anaconda_name}}'
-anaconda_link_dir: '{{anaconda_parent_dir}}/{{anaconda_link_subdir}}'
+miniconda_dir: "{{ miniconda_parent_dir }}/miniconda"
 
-anaconda_conda_bin: '{{anaconda_link_dir}}/bin/conda'
+miniconda_conda_bin: "{{ miniconda_dir }}/bin/conda"
+...
