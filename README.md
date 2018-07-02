@@ -1,5 +1,7 @@
 # Ansible Role: Miniconda
 
+[![Build Status](https://travis-ci.com/jkglasbrenner/ansible-role-miniconda.svg?branch=master)](https://travis-ci.com/jkglasbrenner/ansible-role-miniconda)
+
 Installs [Miniconda](https://conda.io/miniconda.html) on Ubuntu installations.
 
 ## Requirements
