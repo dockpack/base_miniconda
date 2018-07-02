@@ -1,11 +1,30 @@
 ---
-- name: install package dependencies for miniconda installation
+- name: install package dependencies for miniconda installation (apt package manager)
   become: true
   apt:
-    name: "{{ item }}"
+    name: "{{ miniconda_package_dependencies }}"
+    update_cache: yes
     state: present
-  with_items: "{{ miniconda_package_dependencies }}"
   when: ansible_os_family == 'Debian'
+
+- name: install package dependencies for miniconda installation (yum package manager)
+  become: true
+  yum:
+    name: "{{ miniconda_package_dependencies }}"
+    update_cache: yes
+    state: present
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution != 'Fedora'
+
+- name: install package dependencies for miniconda installation (dnf package manager)
+  become: true
+  dnf:
+    name: "{{ miniconda_package_dependencies }}"
+    state: present
+  when:
+    - ansible_distribution == 'Fedora'
+    - ansible_distribution_version is version_compare(21, operator=">")
 
 - name: check for installation of miniconda
   become: yes
