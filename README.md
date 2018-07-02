@@ -2,7 +2,14 @@
 
 [![Build Status](https://travis-ci.org/jkglasbrenner/ansible-role-miniconda.svg?branch=master)](https://travis-ci.org/jkglasbrenner/ansible-role-miniconda)
 
-Installs [Miniconda](https://conda.io/miniconda.html) on Ubuntu installations.
+Installs [Miniconda](https://conda.io/miniconda.html) on Debian-based and RedHat-based distributions. Miniconda is the minimal version of [Anaconda](https://www.anaconda.com/distribution/), a cross-platform Python distribution with a built-in environment and package manager.
+
+Install this role using `ansible-galaxy`:
+
+```bash
+# Install this role using ansible-galaxy
+ansible-galaxy install jkglasbrenner.miniconda
+```
 
 ## Requirements
 
