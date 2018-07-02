@@ -1,4 +1,6 @@
 ---
+dependencies: []
+
 galaxy_info:
   author: James Glasbrenner
   description: installs miniconda
@@ -8,7 +10,21 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - all
+        - bionic
+        - xenial
+        - trusty
+        - precise
+    - name: Debian
+      versions:
+        - stretch
+        - jessie
+    - name: Fedora
+      versions:
+        - 27
+    - name: EL
+      versions:
+        - 7
+        - 6
   galaxy_tags:
     - python
     - conda

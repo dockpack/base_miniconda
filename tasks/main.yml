@@ -70,6 +70,15 @@
     dest: "{{ miniconda_etc_profile }}/conda.csh"
     state: link
 
+- name: source conda.sh directly from /etc/bash.bashrc
+  become: yes
+  blockinfile:
+    path: "/etc/bash.bashrc"
+    state: present
+    block: |
+      # Initialize miniconda
+      . {{ miniconda_etc_profile_conda }}.sh
+
 - name: update base miniconda packages
   become: yes
   shell: bash -lc "conda update -y --all"
