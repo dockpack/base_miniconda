@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   role_name: miniconda
-  author: James Glasbrenner
+  author: jkglasbrenner
   description: installs miniconda
   license:
     - MIT
