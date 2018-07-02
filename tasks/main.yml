@@ -1,30 +1,9 @@
 ---
-- name: install package dependencies for miniconda installation (apt package manager)
+- name: install package dependencies for miniconda installation
   become: true
-  apt:
-    name: "{{ miniconda_package_dependencies }}"
-    update_cache: yes
-    state: present
-  when: ansible_os_family == 'Debian'
-
-- name: install package dependencies for miniconda installation (yum package manager)
-  become: true
-  yum:
-    name: "{{ miniconda_package_dependencies }}"
-    update_cache: yes
-    state: present
-  when:
-    - ansible_os_family == 'RedHat'
-    - ansible_distribution != 'Fedora'
-
-- name: install package dependencies for miniconda installation (dnf package manager)
-  become: true
-  dnf:
+  package:
     name: "{{ miniconda_package_dependencies }}"
     state: present
-  when:
-    - ansible_distribution == 'Fedora'
-    - ansible_distribution_version is version_compare(21, operator=">")
 
 - name: check for installation of miniconda
   become: yes
@@ -85,6 +64,6 @@
   shell: bash -lc "conda update -y --all"
   register: conda_update_pkgs
   when: miniconda_pkg_update
-  changed_when: "conda_update_pkgs.stdout is not search('All requested packages already installed')"
-  failed_when: "conda_update_pkgs.stderr is search('conda: command not found')"
+  changed_when: conda_update_pkgs.stdout is not search('All requested packages already installed')
+  failed_when: conda_update_pkgs.rc != 0
 ...
