@@ -70,7 +70,7 @@
     dest: "{{ miniconda_etc_profile }}/conda.csh"
     state: link
 
-- name: source conda.sh directly from /etc/bash.bashrc
+- name: source conda.sh in /etc/bash.bashrc (Debian-based distros)
   become: yes
   blockinfile:
     path: "/etc/bash.bashrc"
@@ -78,6 +78,7 @@
     block: |
       # Initialize miniconda
       . {{ miniconda_etc_profile_conda }}.sh
+  when: ansible_os_family == 'Debian'
 
 - name: update base miniconda packages
   become: yes
