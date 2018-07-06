@@ -57,6 +57,7 @@
     block: |
       # Initialize miniconda
       . {{ miniconda_etc_profile_conda }}.sh
+    marker: '# {mark} ANSIBLE MANAGED BLOCK jkglasbrenner.miniconda'
   when: ansible_os_family == 'Debian'
 
 - name: update base miniconda packages
