@@ -61,6 +61,7 @@ miniconda_pkg_update: true
 
 ```yaml
 - hosts: all
+  become: yes
   roles:
     - jkglasbrenner.miniconda
 ```

@@ -1,12 +1,10 @@
 ---
 - name: install package dependencies for miniconda installation
-  become: true
   package:
     name: "{{ miniconda_package_dependencies }}"
     state: present
 
 - name: check for installation of miniconda
-  become: yes
   stat:
     path: "{{ miniconda_conda_bin }}"
   register: miniconda_conda_binary
@@ -24,7 +22,6 @@
   when: not miniconda_conda_binary.stat.exists
 
 - name: install miniconda
-  become: yes
   command: "/tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_dir }}"
   args:
     creates: "{{ miniconda_dir }}"
@@ -36,21 +33,18 @@
     state: absent
 
 - name: link /etc/profile.d/conda.sh
-  become: yes
   file:
     src: "{{ miniconda_etc_profile_conda }}.sh"
     dest: "{{ miniconda_etc_profile }}/conda.sh"
     state: link
 
 - name: link /etc/profile.d/conda.csh
-  become: yes
   file:
     src: "{{ miniconda_etc_profile_conda }}.csh"
     dest: "{{ miniconda_etc_profile }}/conda.csh"
     state: link
 
 - name: source conda.sh in /etc/bash.bashrc (Debian-based distros)
-  become: yes
   blockinfile:
     path: "/etc/bash.bashrc"
     state: present
@@ -61,7 +55,6 @@
   when: ansible_os_family == 'Debian'
 
 - name: update base miniconda packages
-  become: yes
   shell: bash -lc "conda update -y --all"
   register: conda_update_pkgs
   when: miniconda_pkg_update
