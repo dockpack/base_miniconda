@@ -13,7 +13,6 @@ galaxy_info:
         - bionic
         - xenial
         - trusty
-        - precise
     - name: Debian
       versions:
         - stretch
