@@ -1,0 +1,5 @@
+file:
+  /opt/conda/bin/conda:
+    exists: true
+    filetype: file
+    mode: "0775"
