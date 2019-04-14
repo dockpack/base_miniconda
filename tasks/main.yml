@@ -15,10 +15,13 @@
     url: "{{ miniconda_installer_url }}"
     checksum: "{{ miniconda_checksum }}"
     dest: "/tmp/{{ miniconda_installer_sh }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ ansible_user | default('root') }}"
+    group: "{{ ansible_user | default('root') }}"
     mode: 0755
     timeout: "{{ miniconda_timeout_seconds }}"
+  register: miniconda_download
+  until: miniconda_download is succeeded
+  retries: 10
   when: not miniconda_conda_binary.stat.exists
 
 - name: install miniconda
@@ -55,7 +58,7 @@
   when: ansible_os_family == 'Debian'
 
 - name: update base miniconda packages
-  shell: bash -lc "conda update -y --all"
+  command: bash -lc "conda update -y --all"
   register: conda_update_pkgs
   when: miniconda_pkg_update
   changed_when: conda_update_pkgs.stdout is not search('All requested packages already installed')
