@@ -1,0 +1,11 @@
+file:
+  {{ miniconda_conda_bin }}:
+    exists: true
+    filetype: file
+    mode: "0775"
+  {{ miniconda_dir }}/condabin/conda:
+    exists: true
+    mode: "0775"
+  {{ miniconda_dir }}/bin/python{{ miniconda_python_ver }}:
+    exists: true
+    filetype: symlink

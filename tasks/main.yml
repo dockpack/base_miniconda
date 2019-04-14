@@ -57,6 +57,11 @@
     marker: '# {mark} ANSIBLE MANAGED BLOCK jkglasbrenner.miniconda'
   when: ansible_os_family == 'Debian'
 
+- name: copy test_conda.yml to remote
+  template:
+    src: test_conda.yml.j2
+    dest: /root/test_conda.yml
+
 - name: update base miniconda packages
   command: bash -lc "conda update -y --all"
   register: conda_update_pkgs
