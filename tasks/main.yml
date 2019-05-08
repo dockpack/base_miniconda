@@ -3,6 +3,10 @@
   package:
     name: "{{ miniconda_package_dependencies }}"
     state: present
+  register: network_access
+  until: network_access is success
+  retries: 10
+  delay: 2
 
 - name: check for installation of miniconda
   stat:
