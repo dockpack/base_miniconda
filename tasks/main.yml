@@ -69,7 +69,7 @@
 - name: update base miniconda packages
   command: bash -lc "conda update -y --all"
   register: upd
-  when: miniconda_pkg_update
+  when: miniconda_pkg_update|bool
   # yamllint disable-line rule:line-length
   changed_when: upd.stdout is not search('All requested packages already installed')
   failed_when: upd.rc != 0
