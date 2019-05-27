@@ -63,7 +63,7 @@ miniconda_pkg_update: true
 - hosts: all
   become: yes
   roles:
-    - jkglasbrenner.miniconda
+    - dockpack.base_miniconda
 ```
 
 ## License
