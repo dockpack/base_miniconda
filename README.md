@@ -7,7 +7,7 @@ Installs [Miniconda](https://conda.io/miniconda.html) on Debian-based and RedHat
 Install this role using `ansible-galaxy`:
 
 ```bash
-ansible-galaxy install jkglasbrenner.miniconda
+ansible-galaxy install dockpack.base_miniconda
 ```
 
 ## Requirements
