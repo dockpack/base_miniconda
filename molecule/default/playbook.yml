@@ -1,6 +1,7 @@
 ---
 - hosts: all
   vars:
+    install_miniconda: true
     miniconda_dir: "{{ miniconda_parent_dir }}/conda"
   roles:
-    - role: ansible-role-miniconda
+    - role: base_miniconda

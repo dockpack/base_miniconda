@@ -2,13 +2,14 @@
 dependencies: []
 
 galaxy_info:
-  role_name: miniconda
-  author: jkglasbrenner
+  role_name: dockpack.base_miniconda
+  author: jkglasbrenner, bbaassssiiee, evandam
   description: |
     Miniconda is the minimal version of Anaconda, a cross-platform
     Python distribution with a built-in environment and package manager.
+    This role has an ansible module to manage miniconda environments.
   license: MIT
-  min_ansible_version: 2.4
+  min_ansible_version: 2.6
   platforms:
     - name: Ubuntu
       versions:
@@ -19,9 +20,6 @@ galaxy_info:
       versions:
         - stretch
         - jessie
-    - name: Fedora
-      versions:
-        - 27
     - name: EL
       versions:
         - 7
