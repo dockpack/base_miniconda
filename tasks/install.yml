@@ -1,0 +1,96 @@
+---
+- name: install package dependencies for miniconda installation
+  package:
+    name: "{{ miniconda_package_dependencies }}"
+    state: present
+  register: network_access
+  until: network_access is success
+  retries: 10
+  delay: 2
+  tags:
+    - install
+
+- name: check for installation of miniconda
+  stat:
+    path: "{{ miniconda_conda_bin }}"
+  register: miniconda_conda_binary
+  changed_when: false
+  tags:
+    - install
+
+- name: download miniconda installer
+  get_url:
+    url: "{{ miniconda_installer_url }}"
+    checksum: "{{ miniconda_checksum }}"
+    dest: "/tmp/{{ miniconda_installer_sh }}"
+    owner: "{{ ansible_user | default('root') }}"
+    group: "{{ ansible_user | default('root') }}"
+    mode: 0755
+    timeout: "{{ miniconda_timeout_seconds }}"
+  register: miniconda_download
+  until: miniconda_download is succeeded
+  retries: 10
+  when: not miniconda_conda_binary.stat.exists
+  tags:
+    - install
+
+- name: install miniconda
+  command: "/tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_dir }}"
+  args:
+    creates: "{{ miniconda_dir }}"
+  when: not miniconda_conda_binary.stat.exists
+  tags:
+    - install
+
+- name: delete miniconda installer
+  file:
+    path: "/tmp/{{ miniconda_installer_sh }}"
+    state: absent
+  tags:
+    - install
+
+- name: link /etc/profile.d/conda.sh
+  file:
+    src: "{{ miniconda_etc_profile_conda }}.sh"
+    dest: "{{ miniconda_etc_profile }}/conda.sh"
+    state: link
+  tags:
+    - install
+
+- name: link /etc/profile.d/conda.csh
+  file:
+    src: "{{ miniconda_etc_profile_conda }}.csh"
+    dest: "{{ miniconda_etc_profile }}/conda.csh"
+    state: link
+  tags:
+    - install
+
+- name: source conda.sh in /etc/bash.bashrc (Debian-based distros)
+  blockinfile:
+    path: "/etc/bash.bashrc"
+    state: present
+    block: |
+      # Initialize miniconda
+      . {{ miniconda_etc_profile_conda }}.sh
+    marker: '# {mark} ANSIBLE MANAGED BLOCK jkglasbrenner.miniconda'
+  when: ansible_os_family == 'Debian'
+  tags:
+    - install
+
+- name: copy test_conda.yml to remote
+  template:
+    src: test_conda.yml.j2
+    dest: /root/test_conda.yml
+  tags:
+    - install
+
+- name: update base miniconda packages
+  command: bash -lc "conda update -y --all"
+  register: upd
+  when: miniconda_pkg_update|bool
+  # yamllint disable-line rule:line-length
+  changed_when: upd.stdout is not search('All requested packages already installed')
+  failed_when: upd.rc != 0
+  tags:
+    - install
+...
