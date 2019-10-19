@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/dockpack/base_miniconda.svg?branch=master)](https://travis-ci.org/dockpack/base_miniconda)
 
-Installs [Miniconda](https://conda.io/miniconda.html) on Debian-based and RedHat-based Linux distributions. Miniconda is the minimal version of [Anaconda](https://www.anaconda.com/distribution/), a cross-platform Python distribution with a built-in environment and package manager. This role has an ansible module by @evandam to manage miniconda environments.
+Installs [Miniconda](https://conda.io/miniconda.html) on Debian-based and RedHat-based Linux distributions. Miniconda is the minimal version of [Anaconda](https://www.anaconda.com/distribution/), a cross-platform Python distribution with a built-in environment and package manager. This role has an ansible module by @evandam to manage miniconda environments in an idempotent way..
 
 Install this role using `ansible-galaxy`:
 
@@ -12,7 +12,11 @@ ansible-galaxy install dockpack.base_miniconda
 
 ## Requirements
 
-None.
+Python.
+
+## Development
+
+This role is tested with tox and molecule test on Travis.
 
 ## Role Variables
 
@@ -30,12 +34,12 @@ miniconda_mirror: "https://repo.continuum.io/miniconda"
 miniconda_python_ver: 3
 
 # miniconda version
-miniconda_ver: "4.5.12"
+miniconda_ver: "4.7.12"
 
 # miniconda checksums
 miniconda_checksums:
-  Miniconda2-4.5.12-Linux-x86_64.sh: "md5:4be03f925e992a8eda03758b72a77298"
-  Miniconda3-4.5.12-Linux-x86_64.sh: "md5:866ae9dff53ad0874e1d1a60b1ad1ef8"
+  Miniconda2-4.7.12-Linux-x86_64.sh: "md5:5a218d9dce3a77905d17ae87ac72a1e8"
+  Miniconda3-4.7.12-Linux-x86_64.sh: "md5:0dba759b8ecfc8948f626fa18785e3d8"
 
 # miniconda installer info
 miniconda_name: "Miniconda{{ miniconda_python_ver }}-{{ miniconda_ver }}-Linux-x86_64"
@@ -81,37 +85,43 @@ miniconda_pkg_update: true
   vars:
     miniconda_dir: "/opt/conda"
     install_miniconda: false
+    miniconda_envs:
+      - pyenv: "{{ miniconda_dir }}/envs/py27"
+        python: "2.7"
+      - pyenv: "{{ miniconda_dir }}/envs/py37"
+        python: "3.7"
+    miniconda_packages:
+      - future
+      - pytest
+      - pandas
+      - numpy
+      - scipy
+      - matplotlib
+    miniconda_channels:
+      - main
+      - conda-forge
 
   roles:
     - role: base_miniconda
 
+
   tasks:
-
-    - name: Update conda to latest version
+    - name: Create conda environments
       conda:
         executable: "{{ miniconda_dir }}/bin/conda"
-        name: conda
-        state: latest
+        name: "python={{ item.python }}"
+        environment: "{{ item.pyenv }}"
+      with_items: "{{ miniconda_envs }}"
 
-    - name: Install numpy
+    - name: Configure conda environments
       conda:
         executable: "{{ miniconda_dir }}/bin/conda"
-        name: numpy
+        environment: "{{ item.pyenv }}"
+        channels: "{{ miniconda_channels }}"
+        name: "{{ miniconda_packages }}"
         state: present
+      with_items: "{{ miniconda_envs }}"
 
-    - name: Install multiple packages
-      conda:
-        executable: "{{ miniconda_dir }}/bin/conda"
-        name:
-          - pandas
-          - sqlalchemy
-        state: present
-
-    - name: Install doxygen from conda-forge
-      conda:
-        executable: "{{ miniconda_dir }}/bin/conda"
-        name: doxygen
-        channels: conda-forge
 ```
 
 ## License
