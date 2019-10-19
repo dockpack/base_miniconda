@@ -15,12 +15,6 @@ platforms:
   - name: base-conda-centos6
     image: centos:6
     privileged: true
-  - name: base-conda-ubuntu
-    image: ubuntu:xenial
-    privileged: true
-  - name: base-conda-debian
-    image: debian:buster
-    privileged: true
 provisioner:
   name: ansible
   config_options:

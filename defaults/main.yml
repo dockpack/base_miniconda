@@ -10,16 +10,16 @@ miniconda_mirror: "https://repo.continuum.io/miniconda"
 miniconda_python_ver: 3
 
 # miniconda version
-miniconda_ver: "4.5.12"
+miniconda_ver: "4.7.12"
 
 # miniconda checksums
 miniconda_checksums:
+  Miniconda2-4.7.12-Linux-x86_64.sh: "md5:5a218d9dce3a77905d17ae87ac72a1e8"
+  Miniconda3-4.7.12-Linux-x86_64.sh: "md5:0dba759b8ecfc8948f626fa18785e3d8"
+  Miniconda2-4.6.14-Linux-x86_64.sh: "md5:faa7cb0b0c8986ac3cacdbbd00fe4168"
+  Miniconda3-4.6.14-Linux-x86_64.sh: "md5:718259965f234088d785cad1fbd7de03"
   Miniconda2-4.5.12-Linux-x86_64.sh: "md5:4be03f925e992a8eda03758b72a77298"
   Miniconda3-4.5.12-Linux-x86_64.sh: "md5:866ae9dff53ad0874e1d1a60b1ad1ef8"
-  Miniconda2-4.5.11-Linux-x86_64.sh: "md5:458324438b7b0e5afcc272b63d44195d"
-  Miniconda3-4.5.11-Linux-x86_64.sh: "md5:e1045ee415162f944b6aebfe560b8fee"
-  Miniconda2-4.5.4-Linux-x86_64.sh: "md5:8a1c02f6941d8778f8afad7328265cf5"
-  Miniconda3-4.5.4-Linux-x86_64.sh: "md5:a946ea1d0c4a642ddf0c3a26a18bb16d"
 
 # miniconda installer info
 # yamllint disable-line rule:line-length
