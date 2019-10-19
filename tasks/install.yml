@@ -34,10 +34,22 @@
   tags:
     - install
 
-- name: install miniconda
-  command: "/tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_dir }}"
-  args:
-    creates: "{{ miniconda_dir }}"
+- block:
+    - name: install miniconda asynchronously
+      async: 1800
+      poll: 0
+      command: "/tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_dir }}"
+      args:
+        creates: "{{ miniconda_dir }}"
+      register: my_task
+
+    - name: get the task status using ansible async_status
+      async_status:
+        jid: "{{ my_task.ansible_job_id }}"
+      register: result
+      until: result.finished
+      retries: 50
+      delay: 10
   when: not miniconda_conda_binary.stat.exists
   tags:
     - install
