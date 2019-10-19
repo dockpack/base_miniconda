@@ -10,7 +10,7 @@ miniconda_mirror: "https://repo.continuum.io/miniconda"
 miniconda_python_ver: 3
 
 # miniconda version
-miniconda_ver: "4.7.12"
+miniconda_ver: "4.6.14"
 
 # miniconda checksums
 miniconda_checksums:
