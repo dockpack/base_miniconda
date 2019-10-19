@@ -10,11 +10,6 @@
     - role: base_miniconda
 
   tasks:
-    - name: Install an older version of conda
-      conda:
-        executable: "{{ miniconda_dir }}/bin/conda"
-        name: conda
-        version: 4.5.0
 
     - name: Update conda to latest version
       conda:
