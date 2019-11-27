@@ -23,8 +23,6 @@
     url: "{{ miniconda_installer_url }}"
     checksum: "{{ miniconda_checksum }}"
     dest: "/tmp/{{ miniconda_installer_sh }}"
-    owner: "{{ ansible_user | default('root') }}"
-    group: "{{ ansible_user | default('root') }}"
     mode: 0755
     timeout: "{{ miniconda_timeout_seconds }}"
   register: miniconda_download
