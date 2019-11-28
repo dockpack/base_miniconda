@@ -21,10 +21,9 @@ miniconda_packages:
   - scipy
   - matplotlib
   - bokeh
-  - doxygen=1.8.14 # hardcode to 1.8.14 due to bug in 1.8.16
-  - graphviz # required for doxygen
+  - doxygen=1.8.14  # hardcode to 1.8.14 due to bug in 1.8.16
+  - graphviz  # required for doxygen
   - mkdocs
 miniconda_channels:
   - main
   - conda-forge
-

@@ -19,7 +19,7 @@
         - miniconda_envs is defined
       tags:
         - miniconda
-    
+
     - name: Configure conda environments
       conda:
         executable: "{{ miniconda_dir }}/bin/conda"
@@ -32,7 +32,7 @@
         - miniconda_envs is defined
       tags:
         - miniconda
-    
+
     - name: Cleanup Conda
       command: "{{ miniconda_dir }}/bin/conda clean --yes --all"
       tags:
