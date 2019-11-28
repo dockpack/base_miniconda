@@ -1,0 +1,39 @@
+---
+- hosts: all
+  vars:
+    install_miniconda: true
+    miniconda_dir: "{{ miniconda_parent_dir }}/conda"
+  vars_files:
+    - vars.yml
+  roles:
+    - role: base_miniconda
+
+  post_tasks:
+    - name: Create conda environments
+      conda:
+        executable: "{{ miniconda_dir }}/bin/conda"
+        name: "python={{ item.python }}"
+        environment: "{{ item.pyenv }}"
+      with_items: "{{ miniconda_envs }}"
+      when:
+        - miniconda_envs is defined
+      tags:
+        - miniconda
+    
+    - name: Configure conda environments
+      conda:
+        executable: "{{ miniconda_dir }}/bin/conda"
+        environment: "{{ item.pyenv }}"
+        channels: "{{ miniconda_channels }}"
+        name: "{{ miniconda_packages }}"
+        state: present
+      with_items: "{{ miniconda_envs }}"
+      when:
+        - miniconda_envs is defined
+      tags:
+        - miniconda
+    
+    - name: Cleanup Conda
+      command: "{{ miniconda_dir }}/bin/conda clean --yes --all"
+      tags:
+        - miniconda
