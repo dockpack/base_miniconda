@@ -1,6 +1,6 @@
 # Ansible Role: Miniconda
-
-[![Build Status](https://travis-ci.org/dockpack/base_miniconda.svg?branch=master)](https://travis-ci.org/dockpack/base_miniconda)
+[![Galaxy](https://img.shields.io/badge/galaxy-dockpack.base__miniconda-blue.svg?style=flat)](https://galaxy.ansible.com/dockpack/base_miniconda)
+[![Build Status](https://travis-ci.com/dockpack/base_miniconda.svg?branch=master)](https://travis-ci.org/dockpack/base_miniconda)
 
 Installs [Miniconda](https://conda.io/miniconda.html) on Debian-based and RedHat-based Linux distributions. Miniconda is the minimal version of [Anaconda](https://www.anaconda.com/distribution/), a cross-platform Python distribution with a built-in environment and package manager. This role has an ansible module by @evandam to manage miniconda environments in an idempotent way..
 
