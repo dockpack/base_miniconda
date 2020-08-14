@@ -3,3 +3,7 @@
 - name: install when install_miniconda is true
   include_tasks: install.yml
   when: install_miniconda is defined and install_miniconda|bool
+
+- name: create conda environments when miniconda_envs is defined
+  include_tasks: conda.yml
+  when: miniconda_envs is defined

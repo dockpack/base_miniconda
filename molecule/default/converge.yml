@@ -3,5 +3,7 @@
   vars:
     install_miniconda: true
     miniconda_dir: "{{ miniconda_parent_dir }}/conda"
+  vars_files:
+    - ../../defaults/options.yml
   roles:
     - role: base_miniconda

@@ -1,0 +1,15 @@
+---
+
+miniconda_python_ver: 3
+
+miniconda_dir: "{{ miniconda_parent_dir }}/conda"
+miniconda_envs:
+  - pyenv: "{{ miniconda_dir }}/envs/py36_64"
+    python: "3.6"
+miniconda_packages:
+  - future
+  - pytest
+  - tox
+miniconda_channels:
+  - main
+  - conda-forge

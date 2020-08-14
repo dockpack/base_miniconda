@@ -1,0 +1,14 @@
+---
+version: '2.2'
+services:
+  miniconda:
+    container_name: miniconda
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - base_miniconda:/opt/conda
+    command: bash -c "while true; do echo 'sleeping...' && sleep 10; done"
+volumes:
+  base_miniconda:
+    driver: local
