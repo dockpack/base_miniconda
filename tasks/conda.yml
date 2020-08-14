@@ -28,3 +28,4 @@
   command: "{{ miniconda_dir }}/bin/conda clean --yes --all"
   tags:
     - miniconda
+    - notest
