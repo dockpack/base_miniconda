@@ -79,6 +79,7 @@
   template:
     src: test_conda.yml.j2
     dest: /root/test_conda.yml
+    mode: 0644
   tags:
     - install
 
