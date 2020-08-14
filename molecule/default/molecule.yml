@@ -22,7 +22,7 @@ provisioner:
       remote_tmp: /tmp
       stdout_callback: yaml
   playbooks:
-    converge: playbook.yml
+    converge: converge.yml
   lint:
     name: ansible-lint
 scenario:
