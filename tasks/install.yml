@@ -52,6 +52,7 @@
     src: "{{ miniconda_etc_profile_conda }}.sh"
     dest: "{{ miniconda_etc_profile }}/conda.sh"
     state: link
+    mode: 0777
   tags:
     - install
 
@@ -60,6 +61,7 @@
     src: "{{ miniconda_etc_profile_conda }}.csh"
     dest: "{{ miniconda_etc_profile }}/conda.csh"
     state: link
+    mode: 0777
   tags:
     - install
 
