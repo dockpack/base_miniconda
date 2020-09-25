@@ -26,6 +26,8 @@
 
 - name: Cleanup Conda
   command: "{{ miniconda_dir }}/bin/conda clean --yes --all"
+  register: clean
+  changed_when: clean.rc|int == 0
   tags:
     - miniconda
     - notest
