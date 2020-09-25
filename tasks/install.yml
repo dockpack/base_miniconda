@@ -55,6 +55,7 @@
     mode: 0777
   tags:
     - install
+    - notest
 
 - name: link /etc/profile.d/conda.csh
   file:
@@ -64,6 +65,7 @@
     mode: 0777
   tags:
     - install
+    - notest
 
 - name: source conda.sh in /etc/bash.bashrc (Debian-based distros)
   blockinfile:
