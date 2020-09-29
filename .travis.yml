@@ -1,4 +1,3 @@
----
 sudo: required
 language: python
 services:
@@ -12,9 +11,8 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - tox
+  - find . -name "*.yml" | xargs yamllint
+  - molecule test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
-
-...
