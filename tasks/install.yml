@@ -88,7 +88,7 @@
     - install
 
 - name: update base miniconda packages
-  command: bash -lc "conda update -y --all"
+  command: bash -lc "{{ miniconda_conda_bin }} update -y --all"
   register: upd
   when: miniconda_pkg_update|bool
   # yamllint disable-line rule:line-length
