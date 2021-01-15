@@ -1,3 +1,4 @@
+---
 file:
   /opt/conda/bin/conda:
     exists: true
