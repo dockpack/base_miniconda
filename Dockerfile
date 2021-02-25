@@ -1,4 +1,4 @@
-FROM centos:centos6
+FROM centos:centos7
 MAINTAINER Bas Meijer <bas.meijer@me.com>
 
 RUN mkdir -p /tmp/ansible/roles/base_miniconda
